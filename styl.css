@@ -1,0 +1,145 @@
+:root {
+  --papier: #FBF7F1;
+  --ink: #2C2621;
+  --sag: #6B615A;
+  --lyn: #E4DACE;
+  --klei: #A8674F;
+  --kaart: #FFFCF8;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--papier);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.wrap {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+header.masthead {
+  border-bottom: 1px solid var(--lyn);
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.merk {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+.merk a { color: var(--ink); text-decoration: none; }
+
+.leuse {
+  font-family: Georgia, serif;
+  font-style: italic;
+  color: var(--sag);
+  font-size: 0.95rem;
+  margin: 0.35rem 0 0;
+}
+
+h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.9rem;
+  line-height: 1.25;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+h2 {
+  font-family: Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 2.5rem 0 0.6rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--lyn);
+}
+
+h2:first-of-type { border-top: none; padding-top: 0; }
+
+h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.4rem;
+}
+
+p, li { margin: 0 0 0.9rem; }
+
+ul { padding-left: 1.2rem; }
+
+a { color: var(--klei); }
+
+.datum {
+  color: var(--sag);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.kaart {
+  display: block;
+  background: var(--kaart);
+  border: 1px solid var(--lyn);
+  border-radius: 3px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 0.75rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.kaart strong {
+  font-family: Georgia, serif;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.kaart span { color: var(--sag); font-size: 0.92rem; }
+
+.kaart:hover, .kaart:focus { border-color: var(--klei); }
+
+.let-wel {
+  background: var(--kaart);
+  border-left: 3px solid var(--klei);
+  padding: 0.9rem 1rem;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+.terug {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  font-size: 0.92rem;
+  color: var(--sag);
+  text-decoration: none;
+}
+
+.terug:hover { color: var(--klei); }
+
+footer {
+  border-top: 1px solid var(--lyn);
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  color: var(--sag);
+  font-size: 0.9rem;
+}
+
+a:focus-visible, .kaart:focus-visible {
+  outline: 2px solid var(--klei);
+  outline-offset: 2px;
+}
+
+@media (max-width: 30rem) {
+  body { font-size: 16px; }
+  h1 { font-size: 1.6rem; }
+}
