@@ -143,3 +143,37 @@ a:focus-visible, .kaart:focus-visible {
   body { font-size: 16px; }
   h1 { font-size: 1.6rem; }
 }
+
+/* aflaai — free downloads */
+.aflaai {
+  display: block;
+  background: var(--kaart);
+  border: 1px solid var(--lyn);
+  border-radius: 3px;
+  padding: 1.1rem 1.2rem;
+  margin-bottom: 0.9rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.aflaai strong {
+  font-family: Georgia, serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.aflaai span { display: block; color: var(--sag); font-size: 0.92rem; }
+
+.aflaai em {
+  display: block;
+  margin-top: 0.55rem;
+  font-style: normal;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--klei);
+}
+
+.aflaai:hover, .aflaai:focus { border-color: var(--klei); }
