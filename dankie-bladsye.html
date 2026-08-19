@@ -17,11 +17,11 @@
 </header>
 
 <h1>Dankie 🤍</h1>
-<p class="datum">Die Bladsye is on its way to your downloads.</p>
+<p class="datum">Die Bladsye is ready.</p>
 
-<p>It starts on its own in a second or two. If nothing happens, tap the button.</p>
+<p>Tap the button and the four pages are yours. On some phones the PDF opens first — use your browser’s share or download button to save it.</p>
 
-<a class="knop" id="aflaai-skakel" href="Hartsrus-Bladsye.pdf" download target="_blank" rel="noopener">Download Die Bladsye (PDF)</a>
+<a class="knop" href="Hartsrus-Bladsye.pdf" download>Download Die Bladsye (PDF)</a>
 
 <h2>What to do with them</h2>
 
@@ -52,31 +52,5 @@
 
 </div>
 
-<script>
-  // Facebook's in-app browser often navigates away to the file instead of
-  // downloading in the background. If that happens before the analytics beacon
-  // has reported, the download is never counted. So: wait until the beacon
-  // script has actually loaded and had a moment to report, and only then start
-  // the download. Hard fallback in case the beacon never loads at all.
-  (function () {
-    var started = false;
-
-    function begin() {
-      if (started) { return; }
-      started = true;
-      var a = document.getElementById('aflaai-skakel');
-      if (a) { a.click(); }
-    }
-
-    var beacon = document.getElementById('cf-beacon');
-    if (beacon) {
-      beacon.addEventListener('load', function () { setTimeout(begin, 1800); });
-      beacon.addEventListener('error', function () { setTimeout(begin, 300); });
-    }
-
-    // If the beacon is blocked, cached oddly, or simply slow, go anyway.
-    setTimeout(begin, 5000);
-  })();
-</script>
 </body>
 </html>
