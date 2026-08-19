@@ -177,3 +177,20 @@ a:focus-visible, .kaart:focus-visible {
 }
 
 .aflaai:hover, .aflaai:focus { border-color: var(--klei); }
+
+/* knop — the big download button on the dankie pages */
+.knop {
+  display: block;
+  background: var(--klei);
+  color: var(--papier);
+  border: 1px solid var(--klei);
+  border-radius: 3px;
+  padding: 0.95rem 1.2rem;
+  margin: 1.25rem 0 2rem;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+}
+
+.knop:hover, .knop:focus { background: #8F5642; }
