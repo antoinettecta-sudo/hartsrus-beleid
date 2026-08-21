@@ -194,3 +194,74 @@ a:focus-visible, .kaart:focus-visible {
 }
 
 .knop:hover, .knop:focus { background: #8F5642; }
+
+/* vorm — email capture */
+.vorm {
+  background: var(--kaart);
+  border: 1px solid var(--lyn);
+  border-radius: 3px;
+  padding: 1.1rem 1.2rem 1.2rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.vorm h3 {
+  font-family: Georgia, serif;
+  font-size: 1.1rem;
+  margin: 0 0 0.35rem;
+}
+
+.vorm p { font-size: 0.95rem; color: var(--sag); margin-bottom: 0.9rem; }
+
+.vorm-ry { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.vorm input[type="email"] {
+  flex: 1 1 12rem;
+  min-width: 0;
+  font: inherit;
+  font-size: 16px;
+  color: var(--ink);
+  background: var(--papier);
+  border: 1px solid var(--lyn);
+  border-radius: 3px;
+  padding: 0.75rem 0.85rem;
+}
+
+.vorm input[type="email"]:focus {
+  outline: 2px solid var(--klei);
+  outline-offset: 1px;
+  border-color: var(--klei);
+}
+
+.vorm button {
+  flex: 0 0 auto;
+  font: inherit;
+  font-size: 1rem;
+  background: var(--klei);
+  color: var(--papier);
+  border: 1px solid var(--klei);
+  border-radius: 3px;
+  padding: 0.75rem 1.4rem;
+  cursor: pointer;
+}
+
+.vorm button:hover { background: #8F5642; }
+.vorm button[disabled] { opacity: 0.6; cursor: default; }
+
+.vorm-boodskap {
+  margin: 0.8rem 0 0;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.vorm-boodskap.fout { color: var(--klei); }
+
+.vorm-klein {
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+  color: var(--sag);
+}
+
+@media (max-width: 30rem) {
+  .vorm-ry { flex-direction: column; }
+  .vorm button { width: 100%; }
+}
