@@ -81,32 +81,41 @@
     knop.textContent = 'Een oomblik…';
     wys('');
 
-    // Primary: straight into the Hartsrus waitlist. Fire and forget —
-    // the browser can't read this response until the Worker sends CORS headers.
+    // Receipt copy — mails Antoinette as each signup lands. Best effort only.
     try {
-      fetch('https://hartsrus.higgsfield.app/api/waitlist', {
+      fetch('https://formspree.io/f/mqpzjeyd', {
         method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-        body: JSON.stringify({ email: epos, bron: BRON })
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email: epos, bladsy: BRON, _subject: 'Nuwe Hartsrus-inskrywing (' + BRON + ')' })
       }).catch(function () {});
     } catch (e) {}
 
-    // Second copy: mails Antoinette on every signup, and this one we CAN read,
-    // so the message shown to the mamma is based on a real answer.
-    fetch('https://formspree.io/f/mqpzjeyd', {
+    // The record that counts: the Hartsrus waglys, on Hartsrus' own Worker.
+    // This one answers properly, so what the Mamma is told is what happened.
+    fetch('https://hartsrus-waglys.hartsrus.workers.dev/api/waglys', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ email: epos, bladsy: BRON, _subject: 'Nuwe Hartsrus-inskrywing (' + BRON + ')' })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: epos, bron: BRON })
     }).then(function (r) {
-      if (!r.ok) throw new Error('nee');
+      return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, d: d }; });
+    }).then(function (res) {
+      if (!res.ok || !res.d || !res.d.ok) throw new Error((res.d && res.d.fout) || 'onbekend');
       veld.value = '';
       veld.disabled = true;
-      knop.textContent = 'Op die lys 🤍';
-      wys('Dankie! You\'re on the list. We\'ll keep you posted on Hartsrus, and nothing else. 🤍');
-    }).catch(function () {
+      knop.textContent = 'Op die lys \uD83E\uDD0D';
+      if (res.d.status === 'reeds') {
+        wys('You\'re already on the list \u2014 nothing more to do. We\'ll keep you posted on Hartsrus. \uD83E\uDD0D');
+      } else {
+        wys('Dankie! You\'re on the list. We\'ll keep you posted on Hartsrus, and nothing else. \uD83E\uDD0D');
+      }
+    }).catch(function (e) {
       herstel();
-      wys('We couldn\'t confirm that went through — sorry. ' + terugval, true);
+      if (String(e && e.message) === 'ongeldige_epos') {
+        wys('That address doesn\'t look right \u2014 please check it and try again.', true);
+        veld.focus();
+        return;
+      }
+      wys('We couldn\'t add you just now \u2014 sorry, that\'s on us. ' + terugval, true);
     });
   }
 
