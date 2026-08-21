@@ -39,7 +39,68 @@
 
 <p>These pages are the paper version. The thing we're building is the part where you upload the school programme, it reads it, asks you the handful of things only you can answer, and the dates land in your planner on their own. Hand something to a grown-up in the house and the reminder goes to <em>their</em> phone, not yours.</p>
 
-<p>If you'd like to know when it opens, mail <a href="mailto:hallo@hartsrus.co.za?subject=Sit%20my%20op%20die%20lys">hallo@hartsrus.co.za</a>. No newsletter, no noise — one message when there's something real to see.</p>
+<div class="vorm">
+  <h3>Want to know when it opens?</h3>
+  <p>Leave your email and we'll send you one message when Hartsrus is ready — nothing else. No newsletter, no noise.</p>
+  <div class="vorm-ry">
+    <input type="email" id="epos" placeholder="jou@epos.co.za" aria-label="Your email address" autocomplete="email" inputmode="email">
+    <button type="button" id="stuur">Sit my op die lys</button>
+  </div>
+  <p class="vorm-boodskap" id="boodskap" role="status" aria-live="polite"></p>
+  <p class="vorm-klein">Your email is used for that one message and nothing else. You can reply to it any time and ask to come off the list.</p>
+</div>
+
+<script>
+(function () {
+  var veld = document.getElementById('epos');
+  var knop = document.getElementById('stuur');
+  var boodskap = document.getElementById('boodskap');
+  if (!veld || !knop || !boodskap) return;
+
+  var terugval = 'If it doesn\'t come through, mail <a href="mailto:hallo@hartsrus.co.za?subject=Sit%20my%20op%20die%20lys">hallo@hartsrus.co.za</a> and we\'ll add you by hand.';
+
+  function wys(teks, isFout) {
+    boodskap.innerHTML = teks;
+    boodskap.className = 'vorm-boodskap' + (isFout ? ' fout' : '');
+  }
+
+  function geldig(e) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
+  }
+
+  function stuur() {
+    var epos = (veld.value || '').trim();
+
+    if (!epos) { wys('Please fill in your email address first.', true); veld.focus(); return; }
+    if (!geldig(epos)) { wys('That address doesn\'t look right — please check it and try again.', true); veld.focus(); return; }
+
+    knop.disabled = true;
+    knop.textContent = 'Een oomblik…';
+    wys('');
+
+    fetch('https://hartsrus.higgsfield.app/api/waitlist', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+      body: JSON.stringify({ email: epos, bron: 'gratis' })
+    }).then(function () {
+      veld.value = '';
+      veld.disabled = true;
+      knop.textContent = 'Op die lys 🤍';
+      wys('Dankie! You\'re on the list. We\'ll send one message when there\'s something real to see. ' + terugval);
+    }).catch(function () {
+      knop.disabled = false;
+      knop.textContent = 'Sit my op die lys';
+      wys('Something went wrong on our side — it\'s not you. ' + terugval, true);
+    });
+  }
+
+  knop.addEventListener('click', stuur);
+  veld.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); stuur(); }
+  });
+})();
+</script>
 
 <p><a class="terug" href="gratis.html">← Back to the free pages</a></p>
 
