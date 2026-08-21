@@ -41,13 +41,13 @@
 
 <div class="vorm">
   <h3>Want to know when it opens?</h3>
-  <p>Leave your email and we'll send you one message when Hartsrus is ready — nothing else. No newsletter, no noise.</p>
+  <p>Leave your email and we'll keep you posted on Hartsrus — what we're building, and when you can get your hands on it. No spam, no noise, ever.</p>
   <div class="vorm-ry">
     <input type="email" id="epos" placeholder="jou@epos.co.za" aria-label="Your email address" autocomplete="email" inputmode="email">
     <button type="button" id="stuur">Sit my op die lys</button>
   </div>
   <p class="vorm-boodskap" id="boodskap" role="status" aria-live="polite"></p>
-  <p class="vorm-klein">Your email is used for that one message and nothing else. You can reply to it any time and ask to come off the list.</p>
+  <p class="vorm-klein">We'll only ever mail you about Hartsrus. Reply to any message and we'll take you off the list, no questions asked.</p>
 </div>
 
 <script>
@@ -87,7 +87,7 @@
       veld.value = '';
       veld.disabled = true;
       knop.textContent = 'Op die lys 🤍';
-      wys('Dankie! You\'re on the list. We\'ll send one message when there\'s something real to see. ' + terugval);
+      wys('Dankie! You\'re on the list. We\'ll keep you posted on Hartsrus, and nothing else. ' + terugval);
     }).catch(function () {
       knop.disabled = false;
       knop.textContent = 'Sit my op die lys';
