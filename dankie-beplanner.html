@@ -56,25 +56,28 @@
 
 <script>
 (function () {
+  var BRON = 'dankie-beplanner';
   var veld = document.getElementById('epos');
   var knop = document.getElementById('stuur');
   var boodskap = document.getElementById('boodskap');
   if (!veld || !knop || !boodskap) return;
 
-  var terugval = 'If it doesn\'t come through, mail <a href="mailto:hallo@hartsrus.co.za?subject=Sit%20my%20op%20die%20lys">hallo@hartsrus.co.za</a> and we\'ll add you by hand.';
+  var terugval = 'Mail <a href="mailto:hallo@hartsrus.co.za?subject=Sit%20my%20op%20die%20lys">hallo@hartsrus.co.za</a> and we\'ll add you by hand.';
 
   function wys(teks, isFout) {
     boodskap.innerHTML = teks;
     boodskap.className = 'vorm-boodskap' + (isFout ? ' fout' : '');
   }
 
-  function geldig(e) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
+  function geldig(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e); }
+
+  function herstel() {
+    knop.disabled = false;
+    knop.textContent = 'Sit my op die lys';
   }
 
   function stuur() {
     var epos = (veld.value || '').trim();
-
     if (!epos) { wys('Please fill in your email address first.', true); veld.focus(); return; }
     if (!geldig(epos)) { wys('That address doesn\'t look right — please check it and try again.', true); veld.focus(); return; }
 
@@ -82,20 +85,32 @@
     knop.textContent = 'Een oomblik…';
     wys('');
 
-    fetch('https://hartsrus.higgsfield.app/api/waitlist', {
+    // Primary: straight into the Hartsrus waitlist. Fire and forget —
+    // the browser can't read this response until the Worker sends CORS headers.
+    try {
+      fetch('https://hartsrus.higgsfield.app/api/waitlist', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body: JSON.stringify({ email: epos, bron: BRON })
+      }).catch(function () {});
+    } catch (e) {}
+
+    // Second copy: mails Antoinette on every signup, and this one we CAN read,
+    // so the message shown to the mamma is based on a real answer.
+    fetch('https://formspree.io/f/mqpzjeyd', {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-      body: JSON.stringify({ email: epos, bron: 'gratis' })
-    }).then(function () {
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email: epos, bladsy: BRON, _subject: 'Nuwe Hartsrus-inskrywing (' + BRON + ')' })
+    }).then(function (r) {
+      if (!r.ok) throw new Error('nee');
       veld.value = '';
       veld.disabled = true;
       knop.textContent = 'Op die lys 🤍';
-      wys('Dankie! You\'re on the list. We\'ll keep you posted on Hartsrus, and nothing else. ' + terugval);
+      wys('Dankie! You\'re on the list. We\'ll keep you posted on Hartsrus, and nothing else. 🤍');
     }).catch(function () {
-      knop.disabled = false;
-      knop.textContent = 'Sit my op die lys';
-      wys('Something went wrong on our side — it\'s not you. ' + terugval, true);
+      herstel();
+      wys('We couldn\'t confirm that went through — sorry. ' + terugval, true);
     });
   }
 
